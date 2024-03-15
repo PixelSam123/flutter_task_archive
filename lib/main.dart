@@ -109,6 +109,8 @@ class MyPage extends StatelessWidget {
         onPressed: () {},
         tooltip: 'Add',
         shape: const CircleBorder(),
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        foregroundColor: Theme.of(context).colorScheme.onPrimary,
         child: const Icon(Icons.add),
       ),
     );
