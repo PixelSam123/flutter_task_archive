@@ -19,13 +19,13 @@ void main() async {
       setWindowMinSize(const Size(600, 800));
       setWindowFrame(
         Rect.fromLTWH(
-            currentWindowFrame.left, currentWindowFrame.top, 800, 1000),
+            currentWindowFrame.left, currentWindowFrame.top, 600, 800),
       );
     } else {
       setWindowMinSize(const Size(400, 600));
       setWindowFrame(
         Rect.fromLTWH(
-            currentWindowFrame.left, currentWindowFrame.top, 600, 800),
+            currentWindowFrame.left, currentWindowFrame.top, 400, 600),
       );
     }
   }
