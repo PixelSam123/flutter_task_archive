@@ -2,8 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter_task_archive/pages/watch.dart';
 import 'package:flutter_task_archive/pages/x_beauty.dart';
 
+class PageInfo {
+  final String title;
+  final String imageDir;
+  final Widget page;
+
+  PageInfo({required this.title, required this.imageDir, required this.page});
+}
+
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  HomePage({super.key});
+
+  final List<PageInfo> pages = [
+    PageInfo(
+      title: 'X Beauty',
+      imageDir: 'assets/x beauty.png',
+      page: XBeautyPage(),
+    ),
+    PageInfo(
+      title: 'Madison Watch',
+      imageDir: 'assets/watch.png',
+      page: WatchPage(),
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -13,31 +34,58 @@ class HomePage extends StatelessWidget {
         foregroundColor: Theme.of(context).colorScheme.onSecondaryContainer,
         title: const Text('Flutter Task Archive'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const Text('Page List:'),
-            const SizedBox(height: 16.0),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => XBeautyPage()),
-                );
-              },
-              child: const Text('X BEAUTY'),
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 512.0),
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(
+                  'Page List:',
+                  style: Theme.of(context).textTheme.titleSmall,
+                ),
+                const SizedBox(height: 12.0),
+                ...pages.map((page) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Card(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            children: [
+                              Image.asset(
+                                page.imageDir,
+                                width: double.infinity,
+                              ),
+                              const SizedBox(height: 8.0),
+                              Text(
+                                page.title,
+                                style: Theme.of(context).textTheme.titleSmall,
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => page.page,
+                                    ),
+                                  );
+                                },
+                                child: const Text('Open'),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 12.0),
+                    ],
+                  );
+                }),
+              ],
             ),
-            const SizedBox(height: 16.0),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => WatchPage()),
-                );
-              },
-              child: const Text('WATCH'),
-            ),
-          ],
+          ),
         ),
       ),
     );
