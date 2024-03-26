@@ -23,10 +23,13 @@ class XBeautyPage extends StatelessWidget {
           const SizedBox(width: 8.0),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Center(
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 1024.0),
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(
+            maxWidth: 768.0,
+            minHeight: double.infinity,
+          ),
+          child: SingleChildScrollView(
             child: Column(
               children: [
                 Image.asset(
