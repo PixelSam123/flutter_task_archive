@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_task_archive/pages/gabut.dart';
 import 'package:flutter_task_archive/pages/watch.dart';
 import 'package:flutter_task_archive/pages/x_beauty.dart';
 
 class PageInfo {
   final String title;
-  final String imageDir;
+  final String? imageDir;
   final Widget page;
 
-  PageInfo({required this.title, required this.imageDir, required this.page});
+  PageInfo({required this.title, this.imageDir, required this.page});
 }
 
 class HomePage extends StatelessWidget {
@@ -23,6 +24,10 @@ class HomePage extends StatelessWidget {
       title: 'Madison Watch',
       imageDir: 'assets/watch.png',
       page: WatchPage(),
+    ),
+    PageInfo(
+      title: 'Aku Gabut jir',
+      page: GabutPage(),
     ),
   ];
 
@@ -56,10 +61,10 @@ class HomePage extends StatelessWidget {
                           padding: const EdgeInsets.all(8.0),
                           child: Column(
                             children: [
-                              Image.asset(
-                                page.imageDir,
+                              page.imageDir != null ? Image.asset(
+                                page.imageDir!,
                                 width: double.infinity,
-                              ),
+                              ) : const SizedBox(),
                               const SizedBox(height: 8.0),
                               Text(
                                 page.title,
