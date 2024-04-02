@@ -15,7 +15,7 @@ void main() async {
 
     setWindowTitle(_title);
 
-    if (currentScreenSize != null && currentScreenSize.width > 2560) {
+    if (currentScreenSize != null && currentScreenSize.width >= 2560) {
       setWindowMinSize(const Size(600, 800));
       setWindowFrame(
         Rect.fromLTWH(
