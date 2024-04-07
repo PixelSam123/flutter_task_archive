@@ -1,15 +1,27 @@
 import 'package:flutter/material.dart';
 
 class XBeautyPage extends StatelessWidget {
-  XBeautyPage({super.key});
+  const XBeautyPage({super.key});
 
-  final _pageColorScheme = ColorScheme.fromSeed(seedColor: Colors.pink);
+  @override
+  Widget build(BuildContext context) {
+    return Theme(
+      data: Theme.of(context).copyWith(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.pink),
+      ),
+      child: const XBeautyPageContent(),
+    );
+  }
+}
+
+class XBeautyPageContent extends StatelessWidget {
+  const XBeautyPageContent({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: _pageColorScheme.inversePrimary,
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text('X BEAUTY'),
         centerTitle: true,
         titleTextStyle: Theme.of(context).textTheme.titleLarge?.copyWith(
@@ -89,8 +101,8 @@ class XBeautyPage extends StatelessWidget {
         onPressed: () {},
         tooltip: 'Add',
         shape: const CircleBorder(),
-        backgroundColor: _pageColorScheme.primary,
-        foregroundColor: _pageColorScheme.onPrimary,
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        foregroundColor: Theme.of(context).colorScheme.onPrimary,
         child: const Icon(Icons.add),
       ),
     );

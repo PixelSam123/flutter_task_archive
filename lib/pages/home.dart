@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_task_archive/pages/gabut.dart';
+import 'package:flutter_task_archive/pages/discover.dart';
 import 'package:flutter_task_archive/pages/watch.dart';
 import 'package:flutter_task_archive/pages/x_beauty.dart';
 
@@ -18,16 +18,17 @@ class HomePage extends StatelessWidget {
     PageInfo(
       title: 'X Beauty',
       imageDir: 'assets/x beauty.png',
-      page: XBeautyPage(),
+      page: const XBeautyPage(),
     ),
     PageInfo(
       title: 'Madison Watch',
       imageDir: 'assets/watch.png',
-      page: WatchPage(),
+      page: const WatchPage(),
     ),
     PageInfo(
-      title: 'Aku Gabut jir',
-      page: GabutPage(),
+      title: 'Discover',
+      imageDir: 'assets/discover.png',
+      page: const DiscoverPage(),
     ),
   ];
 
@@ -61,10 +62,16 @@ class HomePage extends StatelessWidget {
                           padding: const EdgeInsets.all(8.0),
                           child: Column(
                             children: [
-                              page.imageDir != null ? Image.asset(
-                                page.imageDir!,
-                                width: double.infinity,
-                              ) : const SizedBox(),
+                              page.imageDir != null
+                                  ? ClipRRect(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      child: Image.asset(
+                                        page.imageDir!,
+                                        width: double.infinity,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    )
+                                  : const SizedBox(),
                               const SizedBox(height: 8.0),
                               Text(
                                 page.title,

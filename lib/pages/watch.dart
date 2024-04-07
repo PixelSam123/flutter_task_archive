@@ -1,9 +1,21 @@
 import 'package:flutter/material.dart';
 
 class WatchPage extends StatelessWidget {
-  WatchPage({super.key});
+  const WatchPage({super.key});
 
-  final _pageColorScheme = ColorScheme.fromSeed(seedColor: Colors.grey);
+  @override
+  Widget build(BuildContext context) {
+    return Theme(
+      data: Theme.of(context).copyWith(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.grey),
+      ),
+      child: const WatchPageContent(),
+    );
+  }
+}
+
+class WatchPageContent extends StatelessWidget {
+  const WatchPageContent({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +92,8 @@ class WatchPage extends StatelessWidget {
                                 Text(
                                   '944 Reviews',
                                   style: TextStyle(
-                                    color: _pageColorScheme.secondary,
+                                    color:
+                                        Theme.of(context).colorScheme.secondary,
                                   ),
                                 ),
                               ],
@@ -93,7 +106,7 @@ class WatchPage extends StatelessWidget {
                               'leather band makes for.',
                               textAlign: TextAlign.justify,
                               style: TextStyle(
-                                color: _pageColorScheme.secondary,
+                                color: Theme.of(context).colorScheme.secondary,
                                 letterSpacing: 1.0,
                               ),
                             ),
@@ -112,7 +125,8 @@ class WatchPage extends StatelessWidget {
                       width: 120.0,
                       decoration: BoxDecoration(
                         border: Border.all(
-                          color: _pageColorScheme.secondaryContainer,
+                          color:
+                              Theme.of(context).colorScheme.secondaryContainer,
                         ),
                       ),
                       child: Padding(
@@ -125,12 +139,12 @@ class WatchPage extends StatelessWidget {
                           children: [
                             Icon(
                               Icons.remove,
-                              color: _pageColorScheme.secondary,
+                              color: Theme.of(context).colorScheme.secondary,
                             ),
                             const Text('01'),
                             Icon(
                               Icons.add,
-                              color: _pageColorScheme.secondary,
+                              color: Theme.of(context).colorScheme.secondary,
                             ),
                           ],
                         ),
@@ -140,7 +154,7 @@ class WatchPage extends StatelessWidget {
                     Expanded(
                       child: Container(
                         decoration: BoxDecoration(
-                          color: _pageColorScheme.secondary,
+                          color: Theme.of(context).colorScheme.secondary,
                         ),
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
@@ -151,7 +165,7 @@ class WatchPage extends StatelessWidget {
                             'ADD TO CART',
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                              color: _pageColorScheme.onSecondary,
+                              color: Theme.of(context).colorScheme.onSecondary,
                             ),
                           ),
                         ),
