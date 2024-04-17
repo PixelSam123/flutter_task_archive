@@ -30,7 +30,7 @@ class XBeautyPageContent extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {},
-            icon: const Icon(Icons.people),
+            icon: const Icon(Icons.people, color: Colors.black),
           ),
           const SizedBox(width: 8.0),
         ],
@@ -41,59 +41,57 @@ class XBeautyPageContent extends StatelessWidget {
             maxWidth: 768.0,
             minHeight: double.infinity,
           ),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Image.asset(
-                  'assets/zoom75.webp',
-                  width: double.infinity,
-                  fit: BoxFit.fitWidth,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'ROMAND GLASTING LIP BALM',
-                                  style: Theme.of(context).textTheme.titleLarge,
-                                ),
-                                Text(
-                                  'Rp 100.000,-',
-                                  style:
-                                      Theme.of(context).textTheme.titleMedium,
-                                ),
-                              ],
-                            ),
+          child: ListView(
+            children: [
+              Image.asset(
+                'assets/zoom75.webp',
+                width: double.infinity,
+                fit: BoxFit.fitWidth,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'ROMAND GLASTING LIP BALM',
+                                style: Theme.of(context).textTheme.titleLarge,
+                              ),
+                              Text(
+                                'Rp 100.000,-',
+                                style: Theme.of(context).textTheme.titleMedium,
+                              ),
+                            ],
                           ),
-                          IconButton(
-                            onPressed: () {},
-                            icon: const Icon(
-                              Icons.favorite,
-                              color: Colors.red,
-                            ),
+                        ),
+                        IconButton(
+                          onPressed: () {},
+                          icon: const Icon(
+                            Icons.favorite,
+                            color: Colors.red,
                           ),
-                        ],
-                      ),
-                      const SizedBox(height: 8.0),
-                      const Text(
-                        'The Glasting Melting balm is a moisturizing balm with '
-                        'plant-based moisturizing oil that does not dry out! '
-                        'It provides a transparent and smooth watery glow '
-                        'without feeling stuffy.',
-                      ),
-                    ],
-                  ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8.0),
+                    const Text(
+                      textAlign: TextAlign.justify,
+                      'The Glasting Melting balm is a moisturizing balm with '
+                      'plant-based moisturizing oil that does not dry out! '
+                      'It provides a transparent and smooth watery glow '
+                      'without feeling stuffy.',
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

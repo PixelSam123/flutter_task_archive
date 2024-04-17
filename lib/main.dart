@@ -10,27 +10,29 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   if (Platform.isWindows || Platform.isMacOS || Platform.isLinux) {
-    final currentWindowFrame = (await getWindowInfo()).frame;
-    final currentScreenSize = (await getCurrentScreen())?.frame.size;
-
-    setWindowTitle(_title);
-
-    if (currentScreenSize != null && currentScreenSize.width >= 2560) {
-      setWindowMinSize(const Size(600, 800));
-      setWindowFrame(
-        Rect.fromLTWH(
-            currentWindowFrame.left, currentWindowFrame.top, 600, 800),
-      );
-    } else {
-      setWindowMinSize(const Size(400, 600));
-      setWindowFrame(
-        Rect.fromLTWH(
-            currentWindowFrame.left, currentWindowFrame.top, 400, 600),
-      );
-    }
+    await setupDesktopWindow();
   }
 
   runApp(const MyApp());
+}
+
+Future<void> setupDesktopWindow() async {
+  final windowFrame = (await getWindowInfo()).frame;
+  final screenSize = (await getCurrentScreen())?.frame.size;
+
+  setWindowTitle(_title);
+
+  if (screenSize != null && screenSize.width >= 2560) {
+    setWindowMinSize(const Size(600, 800));
+    setWindowFrame(
+      Rect.fromLTWH(windowFrame.left, windowFrame.top, 600, 800),
+    );
+  } else {
+    setWindowMinSize(const Size(400, 600));
+    setWindowFrame(
+      Rect.fromLTWH(windowFrame.left, windowFrame.top, 400, 600),
+    );
+  }
 }
 
 class MyApp extends StatelessWidget {
