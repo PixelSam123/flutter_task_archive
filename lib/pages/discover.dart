@@ -8,7 +8,7 @@ final List<Continent> continents = [
       const Location(
         name: 'Tajmahal, India',
         startingPrice: 2000,
-        picturePath: 'assets/tajmahal.jpg',
+        picturePath: 'assets/tajmahal.png',
       ),
     ],
   ),
@@ -26,11 +26,15 @@ final List<Continent> continents = [
       const Location(
         name: 'Paris, France',
         startingPrice: 1200,
-        picturePath: 'assets/paris.jpg',
+        picturePath: 'assets/paris.png',
       ),
     ],
   ),
 ];
+
+final List<Location> allLocations = continents.expand((continent) {
+  return continent.locations;
+}).toList();
 
 class DiscoverPage extends StatelessWidget {
   const DiscoverPage({super.key});
@@ -41,7 +45,11 @@ class DiscoverPage extends StatelessWidget {
       data: Theme.of(context).copyWith(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.pink).copyWith(
           primary: const Color(0xFFFC465D),
+          tertiary: const Color(0xFFA0A0A0),
+          tertiaryContainer: const Color(0xFFF4F4F6),
+          surface: const Color(0xFFFFFFFF),
         ),
+        disabledColor: const Color(0xFFD2D2D2),
         textTheme: Theme.of(context).textTheme.apply(fontFamily: 'Poppins'),
       ),
       child: const DiscoverPageContent(),
@@ -65,6 +73,7 @@ class DiscoverPageContent extends StatelessWidget {
           backgroundColor: Theme.of(context).colorScheme.surface,
           appBar: AppBar(
             clipBehavior: Clip.none,
+            scrolledUnderElevation: 0.0,
             actions: [
               Container(
                 clipBehavior: Clip.antiAlias,
@@ -108,31 +117,33 @@ class _Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const sidePadding = EdgeInsets.symmetric(horizontal: 16.0);
+
     return ListView(
       children: [
         const SizedBox(height: 24.0),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          padding: sidePadding,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Discover',
                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                       fontWeight: FontWeight.w600,
                     ),
+                'Discover',
               ),
               const SizedBox(height: 4.0),
               Text(
-                'Explore the best places in the world!',
                 style: TextStyle(
-                  color: Colors.grey.shade500,
+                  color: Theme.of(context).colorScheme.tertiary,
                 ),
+                'Explore the best places in the world!',
               ),
               const SizedBox(height: 40.0),
               Container(
                 decoration: BoxDecoration(
-                  color: Colors.grey.shade200,
+                  color: Theme.of(context).colorScheme.tertiaryContainer,
                   borderRadius: BorderRadius.circular(9999.0),
                 ),
                 child: Padding(
@@ -142,23 +153,23 @@ class _Body extends StatelessWidget {
                       const SizedBox(width: 16.0),
                       Expanded(
                         child: Text(
-                          'Search your trip',
                           style: TextStyle(
-                            color: Colors.grey.shade600,
+                            color: Theme.of(context).colorScheme.tertiary,
                           ),
+                          'Search your trip',
                         ),
                       ),
                       Container(
                         decoration: BoxDecoration(
                           color: Theme.of(context).colorScheme.primary,
-                          borderRadius: BorderRadius.circular(9999.0),
+                          shape: BoxShape.circle,
                         ),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Icon(
-                            Icons.search,
                             size: 16.0,
                             color: Theme.of(context).colorScheme.onPrimary,
+                            Icons.search,
                           ),
                         ),
                       ),
@@ -189,137 +200,41 @@ class _Body extends StatelessWidget {
         SizedBox(
           height: 210.0,
           width: double.infinity,
-          child: ListView(
+          child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            children: [
-              const SizedBox(width: 16.0),
-              ...continents
-                  .expand((continent) => continent.locations)
-                  .expand((location) {
-                return [
-                  _Location(location: location),
-                  const SizedBox(width: 16.0),
-                ];
-              }),
-            ],
+            itemCount: allLocations.length,
+            itemBuilder: (_, index) {
+              return Row(children: [
+                const SizedBox(width: 16.0),
+                _Location(location: allLocations[index]),
+                SizedBox(width: index == allLocations.length - 1 ? 16.0 : 0.0),
+              ]);
+            },
           ),
         ),
         const SizedBox(height: 24.0),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          padding: sidePadding,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Popular Categories',
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.w600,
                     ),
+                'Popular Categories',
               ),
-              const SizedBox(height: 12.0),
-              Row(
+              const SizedBox(height: 16.0),
+              const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.secondary,
-                          borderRadius: BorderRadius.circular(9999.0),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(6.0),
-                          child: Icon(
-                            Icons.airplane_ticket_rounded,
-                            size: 32.0,
-                            color: Theme.of(context).colorScheme.onSecondary,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 6.0),
-                      Text(
-                        'Trips',
-                        style: TextStyle(
-                          color: Colors.grey.shade600,
-                        ),
-                      ),
-                    ],
+                  _Category(name: 'Trips', picturePath: 'assets/trips.png'),
+                  _Category(name: 'Hotel', picturePath: 'assets/hotel.png'),
+                  _Category(
+                    name: 'Transport',
+                    picturePath: 'assets/transport.png',
                   ),
-                  Column(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.secondary,
-                          borderRadius: BorderRadius.circular(9999.0),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(6.0),
-                          child: Icon(
-                            Icons.apartment_rounded,
-                            size: 32.0,
-                            color: Theme.of(context).colorScheme.onSecondary,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 6.0),
-                      Text(
-                        'Hotel',
-                        style: TextStyle(
-                          color: Colors.grey.shade600,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.secondary,
-                          borderRadius: BorderRadius.circular(9999.0),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(6.0),
-                          child: Icon(
-                            Icons.emoji_transportation_rounded,
-                            size: 32.0,
-                            color: Theme.of(context).colorScheme.onSecondary,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 6.0),
-                      Text(
-                        'Transport',
-                        style: TextStyle(
-                          color: Colors.grey.shade600,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.secondary,
-                          borderRadius: BorderRadius.circular(9999.0),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(6.0),
-                          child: Icon(
-                            Icons.celebration_rounded,
-                            size: 32.0,
-                            color: Theme.of(context).colorScheme.onSecondary,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 6.0),
-                      Text(
-                        'Events',
-                        style: TextStyle(
-                          color: Colors.grey.shade600,
-                        ),
-                      ),
-                    ],
-                  ),
+                  _Category(name: 'Events', picturePath: 'assets/events.png'),
                 ],
               ),
             ],
@@ -350,7 +265,7 @@ class _Footer extends StatelessWidget {
             ),
             child: Padding(
               padding: const EdgeInsets.symmetric(
-                horizontal: 12.0,
+                horizontal: 16.0,
                 vertical: 6.0,
               ),
               child: Row(
@@ -360,7 +275,7 @@ class _Footer extends StatelessWidget {
                     color: Theme.of(context).colorScheme.onPrimary,
                     Icons.home_rounded,
                   ),
-                  const SizedBox(width: 4.0),
+                  const SizedBox(width: 6.0),
                   Text(
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                           fontWeight: FontWeight.w600,
@@ -402,7 +317,7 @@ class _ContinentSelect extends StatelessWidget {
             fontWeight: isActive ? FontWeight.w600 : FontWeight.w400,
             color: isActive
                 ? Theme.of(context).colorScheme.primary
-                : Colors.grey.shade600,
+                : Theme.of(context).colorScheme.tertiary,
           ),
         ),
         const SizedBox(height: 2.0),
@@ -466,7 +381,7 @@ class _Location extends StatelessWidget {
                     ),
                     Text(
                       style: TextStyle(
-                        fontSize: 11,
+                        fontSize: 11.0,
                         color: Theme.of(context).colorScheme.onPrimary,
                         shadows: textShadows,
                       ),
@@ -493,6 +408,44 @@ class _Location extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class _Category extends StatelessWidget {
+  final String name;
+  final String picturePath;
+
+  const _Category({
+    required this.name,
+    required this.picturePath,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Container(
+          clipBehavior: Clip.antiAlias,
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.tertiaryContainer,
+            shape: BoxShape.circle,
+          ),
+          child: Image.asset(
+            width: 48.0,
+            height: 48.0,
+            fit: BoxFit.cover,
+            picturePath,
+          ),
+        ),
+        const SizedBox(height: 6.0),
+        Text(
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.tertiary,
+          ),
+          name,
+        ),
+      ],
     );
   }
 }
