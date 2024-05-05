@@ -146,35 +146,31 @@ class _Body extends StatelessWidget {
                   color: Theme.of(context).colorScheme.tertiaryContainer,
                   borderRadius: BorderRadius.circular(9999.0),
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.all(6.0),
-                  child: Row(
-                    children: [
-                      const SizedBox(width: 16.0),
-                      Expanded(
-                        child: Text(
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.tertiary,
-                          ),
-                          'Search your trip',
+                padding: const EdgeInsets.all(6.0),
+                child: Row(
+                  children: [
+                    const SizedBox(width: 16.0),
+                    Expanded(
+                      child: Text(
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.tertiary,
                         ),
+                        'Search your trip',
                       ),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.primary,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Icon(
-                            size: 16.0,
-                            color: Theme.of(context).colorScheme.onPrimary,
-                            Icons.search,
-                          ),
-                        ),
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.primary,
+                        shape: BoxShape.circle,
                       ),
-                    ],
-                  ),
+                      padding: const EdgeInsets.all(8.0),
+                      child: Icon(
+                        size: 16.0,
+                        color: Theme.of(context).colorScheme.onPrimary,
+                        Icons.search,
+                      ),
+                    ),
+                  ],
                 ),
               ),
               const SizedBox(height: 40.0),
@@ -263,28 +259,26 @@ class _Footer extends StatelessWidget {
               color: Theme.of(context).colorScheme.primary,
               borderRadius: BorderRadius.circular(12.0),
             ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16.0,
-                vertical: 6.0,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    color: Theme.of(context).colorScheme.onPrimary,
-                    Icons.home_rounded,
-                  ),
-                  const SizedBox(width: 6.0),
-                  Text(
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          fontWeight: FontWeight.w600,
-                          color: Theme.of(context).colorScheme.onPrimary,
-                        ),
-                    'Home',
-                  ),
-                ],
-              ),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16.0,
+              vertical: 6.0,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  color: Theme.of(context).colorScheme.onPrimary,
+                  Icons.home_rounded,
+                ),
+                const SizedBox(width: 6.0),
+                Text(
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        fontWeight: FontWeight.w600,
+                        color: Theme.of(context).colorScheme.onPrimary,
+                      ),
+                  'Home',
+                ),
+              ],
             ),
           ),
           ...[
@@ -356,57 +350,53 @@ class _Location extends StatelessWidget {
         ),
         borderRadius: BorderRadius.circular(24.0),
       ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 16.0,
-          vertical: 8.0,
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      style: TextStyle(
-                        fontSize: 13.0,
-                        fontWeight: FontWeight.w600,
-                        color: Theme.of(context).colorScheme.onPrimary,
-                        shadows: textShadows,
-                      ),
-                      location.name,
+      padding: const EdgeInsets.symmetric(
+        horizontal: 16.0,
+        vertical: 8.0,
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    style: TextStyle(
+                      fontSize: 13.0,
+                      fontWeight: FontWeight.w600,
+                      color: Theme.of(context).colorScheme.onPrimary,
+                      shadows: textShadows,
                     ),
-                    Text(
-                      style: TextStyle(
-                        fontSize: 11.0,
-                        color: Theme.of(context).colorScheme.onPrimary,
-                        shadows: textShadows,
-                      ),
-                      'Starting at \$${location.startingPrice}',
-                    ),
-                  ],
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.onPrimary,
-                    shape: BoxShape.circle,
+                    location.name,
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(6.0),
-                    child: Icon(
-                      size: 16.0,
-                      color: Theme.of(context).colorScheme.primary,
-                      Icons.favorite,
+                  Text(
+                    style: TextStyle(
+                      fontSize: 11.0,
+                      color: Theme.of(context).colorScheme.onPrimary,
+                      shadows: textShadows,
                     ),
+                    'Starting at \$${location.startingPrice}',
                   ),
+                ],
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.onPrimary,
+                  shape: BoxShape.circle,
                 ),
-              ],
-            ),
-          ],
-        ),
+                padding: const EdgeInsets.all(6.0),
+                child: Icon(
+                  size: 16.0,
+                  color: Theme.of(context).colorScheme.primary,
+                  Icons.favorite,
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
