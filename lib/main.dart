@@ -15,7 +15,8 @@ void main() async {
   }
 
   runApp(FakeDevicePixelRatio(
-    fakeDevicePixelRatio: Platform.isLinux ? 1.25 : 1.0,
+    fakeDevicePixelRatio:
+        Platform.isLinux ? await linuxDevicePixelRatio() : null,
     child: const MyApp(),
   ));
 }
@@ -28,22 +29,41 @@ Future<void> setupDesktopWindow() async {
 
   if (screenSize != null) {
     if (screenSize.width > 2560) {
-      setWindowMinSize(const Size(600, 900));
-      setWindowFrame(
-        Rect.fromLTWH(windowFrame.left, windowFrame.top, 600, 900),
-      );
+      const w = 648.0;
+      const h = 1152.0;
+
+      setWindowMinSize(const Size(w, h));
+      setWindowFrame(Rect.fromLTWH(windowFrame.left, windowFrame.top, w, h));
     } else if (screenSize.width > 1080) {
-      setWindowMinSize(const Size(450, 800));
-      setWindowFrame(
-        Rect.fromLTWH(windowFrame.left, windowFrame.top, 450, 800),
-      );
+      const w = 504.0;
+      const h = 896.0;
+
+      setWindowMinSize(const Size(w, h));
+      setWindowFrame(Rect.fromLTWH(windowFrame.left, windowFrame.top, w, h));
     } else {
-      setWindowMinSize(const Size(360, 640));
-      setWindowFrame(
-        Rect.fromLTWH(windowFrame.left, windowFrame.top, 360, 640),
-      );
+      const w = 396.0;
+      const h = 704.0;
+
+      setWindowMinSize(const Size(w, h));
+      setWindowFrame(Rect.fromLTWH(windowFrame.left, windowFrame.top, w, h));
     }
   }
+}
+
+Future<double> linuxDevicePixelRatio() async {
+  final screenSize = (await getCurrentScreen())?.frame.size;
+  if (screenSize == null) {
+    return 1.0;
+  }
+
+  if (screenSize.width > 2560) {
+    return 1.75;
+  }
+  if (screenSize.width > 1080) {
+    return 1.25;
+  }
+
+  return 1.0;
 }
 
 class MyApp extends StatelessWidget {
