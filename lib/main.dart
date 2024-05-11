@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_task_archive/fake_device_pixel_ratio.dart';
 import 'package:flutter_task_archive/pages/home.dart';
 import 'package:window_size/window_size.dart';
 
@@ -13,7 +14,10 @@ void main() async {
     await setupDesktopWindow();
   }
 
-  runApp(const MyApp());
+  runApp(FakeDevicePixelRatio(
+    fakeDevicePixelRatio: Platform.isLinux ? 1.25 : 1.0,
+    child: const MyApp(),
+  ));
 }
 
 Future<void> setupDesktopWindow() async {
@@ -22,16 +26,23 @@ Future<void> setupDesktopWindow() async {
 
   setWindowTitle(_title);
 
-  if (screenSize != null && screenSize.width >= 2560) {
-    setWindowMinSize(const Size(600, 800));
-    setWindowFrame(
-      Rect.fromLTWH(windowFrame.left, windowFrame.top, 600, 800),
-    );
-  } else {
-    setWindowMinSize(const Size(400, 600));
-    setWindowFrame(
-      Rect.fromLTWH(windowFrame.left, windowFrame.top, 400, 600),
-    );
+  if (screenSize != null) {
+    if (screenSize.width > 2560) {
+      setWindowMinSize(const Size(600, 900));
+      setWindowFrame(
+        Rect.fromLTWH(windowFrame.left, windowFrame.top, 600, 900),
+      );
+    } else if (screenSize.width > 1080) {
+      setWindowMinSize(const Size(450, 800));
+      setWindowFrame(
+        Rect.fromLTWH(windowFrame.left, windowFrame.top, 450, 800),
+      );
+    } else {
+      setWindowMinSize(const Size(360, 640));
+      setWindowFrame(
+        Rect.fromLTWH(windowFrame.left, windowFrame.top, 360, 640),
+      );
+    }
   }
 }
 
