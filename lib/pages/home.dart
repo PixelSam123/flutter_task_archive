@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_task_archive/pages/discover.dart';
+import 'package:flutter_task_archive/pages/product_list.dart';
 import 'package:flutter_task_archive/pages/watch.dart';
 import 'package:flutter_task_archive/pages/x_beauty.dart';
 
@@ -29,6 +30,11 @@ class HomePage extends StatelessWidget {
       title: 'Discover',
       imageDir: 'assets/discover.png',
       page: const DiscoverPage(),
+    ),
+    _PageInfo(
+      title: 'Product List',
+      imageDir: 'assets/productlist.jpg',
+      page: const ProductListPage(),
     ),
   ];
 
