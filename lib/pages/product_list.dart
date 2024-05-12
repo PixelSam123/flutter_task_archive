@@ -29,8 +29,10 @@ class ProductListPageContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
         scrolledUnderElevation: 0.0,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         title: const Text('Product List'),
         centerTitle: true,
         titleTextStyle: Theme.of(context).textTheme.titleMedium?.copyWith(

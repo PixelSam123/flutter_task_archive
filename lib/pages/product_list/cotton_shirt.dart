@@ -27,7 +27,9 @@ class CottonShirtPageContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.surface,
         scrolledUnderElevation: 0.0,
         title: const Text('Product Details'),
         centerTitle: true,
