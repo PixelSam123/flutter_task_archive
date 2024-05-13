@@ -10,12 +10,11 @@ class ProductListPage extends StatelessWidget {
     return Theme(
       data: Theme.of(context).copyWith(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.pink).copyWith(
-          primary: const Color(0xFFFC465D),
-          tertiary: const Color(0xFFA0A0A0),
+          primary: const Color(0xFFF35770),
+          tertiary: const Color(0xFF999999),
           tertiaryContainer: const Color(0xFFF4F4F6),
           surface: const Color(0xFFFFFFFF),
         ),
-        disabledColor: const Color(0xFFD2D2D2),
         textTheme: Theme.of(context).textTheme.apply(fontFamily: 'Poppins'),
       ),
       child: const ProductListPageContent(),
@@ -28,6 +27,14 @@ class ProductListPageContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pageBoxShadow = [
+      BoxShadow(
+        color: Colors.black.withAlpha(47),
+        blurRadius: 4.0,
+        offset: const Offset(0.0, 1.0),
+      ),
+    ];
+
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
@@ -41,7 +48,10 @@ class ProductListPageContent extends StatelessWidget {
             ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.filter_alt_outlined),
+            icon: Icon(
+              Icons.filter_alt_outlined,
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
             onPressed: () {},
           ),
         ],
@@ -50,19 +60,14 @@ class ProductListPageContent extends StatelessWidget {
         children: [
           Expanded(
             child: ListView(
-              padding: const EdgeInsets.all(12.0),
+              padding: const EdgeInsets.all(16.0),
               children: [
                 /* searchbar */
                 Container(
                   padding: const EdgeInsets.all(8.0),
                   decoration: BoxDecoration(
                     color: Theme.of(context).colorScheme.surface,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withAlpha(63),
-                        blurRadius: 6.0,
-                      ),
-                    ],
+                    boxShadow: pageBoxShadow,
                     borderRadius: BorderRadius.circular(4.0),
                   ),
                   child: Row(
@@ -70,16 +75,21 @@ class ProductListPageContent extends StatelessWidget {
                       const Icon(Icons.search),
                       const SizedBox(width: 8.0),
                       Container(
-                        width: 2.0,
+                        width: 1.0,
                         height: 20.0,
-                        color: Colors.black,
+                        color: Theme.of(context).colorScheme.tertiary,
                       ),
                       const SizedBox(width: 8.0),
-                      const Text('Search Your Product'),
+                      Text(
+                        'Search Your Product',
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.tertiary,
+                        ),
+                      ),
                     ],
                   ),
                 ),
-                const SizedBox(height: 24.0),
+                const SizedBox(height: 32.0),
                 /* category */
                 const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -125,22 +135,25 @@ class ProductListPageContent extends StatelessWidget {
                       'This is 100% cotton shirt which is made by Bangladesh',
                   originalPrice: 150,
                   discountPrice: 112,
+                  thumbnailPath: 'assets/cottonshirt.png',
                 ),
-                const SizedBox(height: 12.0),
+                const SizedBox(height: 24.0),
+                const _Product(
+                  name: 'Ladies Watch',
+                  description:
+                      'This is 100% cotton shirt which is made by Bangladesh',
+                  originalPrice: 150,
+                  discountPrice: 112,
+                  thumbnailPath: 'assets/ladieswatch.png',
+                ),
+                const SizedBox(height: 24.0),
                 const _Product(
                   name: 'Cotton Shirt',
                   description:
                       'This is 100% cotton shirt which is made by Bangladesh',
                   originalPrice: 150,
                   discountPrice: 112,
-                ),
-                const SizedBox(height: 12.0),
-                const _Product(
-                  name: 'Cotton Shirt',
-                  description:
-                      'This is 100% cotton shirt which is made by Bangladesh',
-                  originalPrice: 150,
-                  discountPrice: 112,
+                  thumbnailPath: 'assets/cottonshirt2.png',
                 ),
               ],
             ),
@@ -152,12 +165,7 @@ class ProductListPageContent extends StatelessWidget {
             ),
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.surface,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withAlpha(63),
-                  blurRadius: 6.0,
-                ),
-              ],
+              boxShadow: pageBoxShadow,
             ),
             child: const Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -204,19 +212,23 @@ class _Category extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final categoryBoxShadow = [
+      BoxShadow(
+        color: Colors.black.withAlpha(47),
+        blurRadius: 4.0,
+        offset: const Offset(0.0, 1.0),
+      ),
+    ];
+
     return Column(
       children: [
         Container(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(12.0),
           decoration: BoxDecoration(
-            color:
-                isActive ? Colors.pink : Theme.of(context).colorScheme.surface,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withAlpha(63),
-                blurRadius: 6.0,
-              ),
-            ],
+            color: isActive
+                ? Theme.of(context).colorScheme.primary
+                : Theme.of(context).colorScheme.surface,
+            boxShadow: categoryBoxShadow,
             borderRadius: BorderRadius.circular(4.0),
           ),
           child: Icon(
@@ -225,7 +237,7 @@ class _Category extends StatelessWidget {
             color: isActive ? Colors.white : null,
           ),
         ),
-        const SizedBox(height: 4.0),
+        const SizedBox(height: 8.0),
         Text(text, style: Theme.of(context).textTheme.bodySmall),
       ],
     );
@@ -247,7 +259,12 @@ class _FooterItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Icon(icon, color: isActive ? Colors.pink : null),
+        Icon(
+          icon,
+          color: isActive
+              ? Theme.of(context).colorScheme.primary
+              : Theme.of(context).colorScheme.tertiary,
+        ),
         Text(text, style: Theme.of(context).textTheme.bodySmall),
       ],
     );
@@ -259,12 +276,14 @@ class _Product extends StatelessWidget {
   final String description;
   final int originalPrice;
   final int discountPrice;
+  final String thumbnailPath;
 
   const _Product({
     required this.name,
     required this.description,
     required this.originalPrice,
     required this.discountPrice,
+    required this.thumbnailPath,
   });
 
   @override
@@ -278,53 +297,62 @@ class _Product extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            width: 112.0,
+            width: 128.0,
             height: 128.0,
             decoration: BoxDecoration(
-              color: Colors.blue,
+              image: DecorationImage(
+                image: AssetImage(thumbnailPath),
+                fit: BoxFit.cover,
+              ),
               borderRadius: BorderRadius.circular(8.0),
             ),
           ),
-          const SizedBox(width: 12.0),
+          const SizedBox(width: 16.0),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   name,
-                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        fontWeight: FontWeight.w700,
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        fontWeight: FontWeight.w600,
                       ),
                 ),
+                const SizedBox(height: 4.0),
                 Text(description, style: Theme.of(context).textTheme.bodySmall),
                 const SizedBox(height: 8.0),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           '\$$originalPrice',
                           style: TextStyle(
-                            color: Theme.of(context).disabledColor,
+                            color: Theme.of(context).colorScheme.tertiary,
                             decoration: TextDecoration.lineThrough,
-                            decorationColor: Theme.of(context).disabledColor,
+                            decorationColor:
+                                Theme.of(context).colorScheme.tertiary,
+                            height: 1.25,
                           ),
                         ),
                         Text(
                           '\$$discountPrice',
-                          style:
-                              Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                    letterSpacing: 0.0,
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.pink,
-                                  ),
+                          style: TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.w700,
+                            color: Theme.of(context).colorScheme.primary,
+                            height: 1.25,
+                          ),
                         ),
                       ],
                     ),
                     Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text('Color'),
+                        const SizedBox(height: 2.0),
                         Row(
                           children: [
                             Colors.blue,
@@ -334,8 +362,8 @@ class _Product extends StatelessWidget {
                             return Padding(
                               padding: const EdgeInsets.all(2.0),
                               child: Container(
-                                width: 12.0,
-                                height: 12.0,
+                                width: 14.0,
+                                height: 14.0,
                                 color: color,
                               ),
                             );

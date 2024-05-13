@@ -8,12 +8,11 @@ class CottonShirtPage extends StatelessWidget {
     return Theme(
       data: Theme.of(context).copyWith(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.pink).copyWith(
-          primary: const Color(0xFFFC465D),
-          tertiary: const Color(0xFFA0A0A0),
+          primary: const Color(0xFFF35770),
+          tertiary: const Color(0xFF999999),
           tertiaryContainer: const Color(0xFFF4F4F6),
           surface: const Color(0xFFFFFFFF),
         ),
-        disabledColor: const Color(0xFFD2D2D2),
         textTheme: Theme.of(context).textTheme.apply(fontFamily: 'Poppins'),
       ),
       child: const CottonShirtPageContent(),
@@ -29,8 +28,8 @@ class CottonShirtPageContent extends StatelessWidget {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.surface,
         scrolledUnderElevation: 0.0,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         title: const Text('Product Details'),
         centerTitle: true,
         titleTextStyle: Theme.of(context).textTheme.titleMedium?.copyWith(
@@ -42,7 +41,7 @@ class CottonShirtPageContent extends StatelessWidget {
         children: [
           Expanded(
             child: ListView(
-              padding: const EdgeInsets.all(12.0),
+              padding: const EdgeInsets.all(16.0),
               children: [
                 Text(
                   'Cotton Shirt',
@@ -50,7 +49,7 @@ class CottonShirtPageContent extends StatelessWidget {
                         fontWeight: FontWeight.w700,
                       ),
                 ),
-                const SizedBox(height: 2.0),
+                const SizedBox(height: 4.0),
                 Text(
                   'This is 100% cotton shirt',
                   style: Theme.of(context).textTheme.bodySmall,
@@ -60,7 +59,7 @@ class CottonShirtPageContent extends StatelessWidget {
                 Container(
                   width: double.infinity,
                   height: 240.0,
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(12.0),
                   clipBehavior: Clip.antiAlias,
                   decoration: BoxDecoration(
                     image: const DecorationImage(
@@ -77,15 +76,16 @@ class CottonShirtPageContent extends StatelessWidget {
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withAlpha(63),
-                          blurRadius: 6.0,
+                          color: Colors.black.withAlpha(47),
+                          blurRadius: 4.0,
+                          offset: const Offset(0.0, 1.0),
                         ),
                       ],
                     ),
-                    child: const Icon(
+                    child: Icon(
                       Icons.favorite,
-                      color: Colors.pink,
-                      size: 16.0,
+                      color: Theme.of(context).colorScheme.primary,
+                      size: 18.0,
                     ),
                   ),
                 ),
@@ -94,19 +94,22 @@ class CottonShirtPageContent extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      '\$150',
-                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                            fontWeight: FontWeight.w700,
-                            color: Colors.pink,
-                          ),
+                      '\$112',
+                      style: TextStyle(
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.w700,
+                        color: Theme.of(context).colorScheme.primary,
+                        height: 1.25,
+                      ),
                     ),
                     const SizedBox(width: 8.0),
                     Text(
-                      '\$112',
+                      '\$150',
                       style: TextStyle(
-                        color: Theme.of(context).disabledColor,
+                        color: Theme.of(context).colorScheme.tertiary,
                         decoration: TextDecoration.lineThrough,
-                        decorationColor: Theme.of(context).disabledColor,
+                        decorationColor: Theme.of(context).colorScheme.tertiary,
+                        height: 1.25,
                       ),
                     ),
                     const Spacer(),
@@ -117,12 +120,17 @@ class CottonShirtPageContent extends StatelessWidget {
                 /* description */
                 Text(
                   'Description',
-                  style: TextStyle(color: Theme.of(context).disabledColor),
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.tertiary,
+                  ),
                 ),
                 const SizedBox(height: 2.0),
                 Text(
-                  'This is 100% cotton shirt which This is 100% cotton wear shirt which is made by Bangladesh is made by this by Bangladesh dummy text',
+                  'This is 100% cotton shirt which This is 100% cotton wear '
+                  'shirt which is made by Bangladesh is made by this by '
+                  'Bangladesh dummy text',
                   style: Theme.of(context).textTheme.bodySmall,
+                  textAlign: TextAlign.justify,
                 ),
                 const SizedBox(height: 24.0),
                 /* choose colors */
@@ -135,7 +143,7 @@ class CottonShirtPageContent extends StatelessWidget {
                         Text(
                           'Choose Colors',
                           style: TextStyle(
-                            color: Theme.of(context).disabledColor,
+                            color: Theme.of(context).colorScheme.tertiary,
                           ),
                         ),
                         const SizedBox(height: 2.0),
@@ -151,8 +159,8 @@ class CottonShirtPageContent extends StatelessWidget {
                         return Padding(
                           padding: const EdgeInsets.all(2.0),
                           child: Container(
-                            width: color == Colors.blue ? 20.0 : 16.0,
-                            height: color == Colors.blue ? 20.0 : 16.0,
+                            width: color == Colors.blue ? 22.0 : 18.0,
+                            height: color == Colors.blue ? 22.0 : 18.0,
                             color: color,
                             child: color == Colors.blue
                                 ? const Icon(
@@ -182,7 +190,10 @@ class CottonShirtPageContent extends StatelessWidget {
                       vertical: 8.0,
                     ),
                     decoration: BoxDecoration(
-                      border: Border.all(color: Colors.pink, width: 2.0),
+                      border: Border.all(
+                        color: Theme.of(context).colorScheme.primary,
+                        width: 2.0,
+                      ),
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                     child: const Text(
@@ -199,8 +210,11 @@ class CottonShirtPageContent extends StatelessWidget {
                       vertical: 8.0,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.pink,
-                      border: Border.all(color: Colors.pink, width: 2.0),
+                      color: Theme.of(context).colorScheme.primary,
+                      border: Border.all(
+                        color: Theme.of(context).colorScheme.primary,
+                        width: 2.0,
+                      ),
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                     child: Text(
