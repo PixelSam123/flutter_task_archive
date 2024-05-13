@@ -160,7 +160,7 @@ class ProductListPageContent extends StatelessWidget {
           ),
           Container(
             padding: const EdgeInsets.symmetric(
-              horizontal: 12.0,
+              horizontal: 16.0,
               vertical: 8.0,
             ),
             decoration: BoxDecoration(

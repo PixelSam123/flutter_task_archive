@@ -124,7 +124,7 @@ class CottonShirtPageContent extends StatelessWidget {
                     color: Theme.of(context).colorScheme.tertiary,
                   ),
                 ),
-                const SizedBox(height: 2.0),
+                const SizedBox(height: 4.0),
                 Text(
                   'This is 100% cotton shirt which This is 100% cotton wear '
                   'shirt which is made by Bangladesh is made by this by '
@@ -157,10 +157,10 @@ class CottonShirtPageContent extends StatelessWidget {
                         Colors.yellow,
                       ].map((color) {
                         return Padding(
-                          padding: const EdgeInsets.all(2.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 3.0),
                           child: Container(
-                            width: color == Colors.blue ? 22.0 : 18.0,
-                            height: color == Colors.blue ? 22.0 : 18.0,
+                            width: color == Colors.blue ? 24.0 : 20.0,
+                            height: color == Colors.blue ? 24.0 : 20.0,
                             color: color,
                             child: color == Colors.blue
                                 ? const Icon(
@@ -179,7 +179,7 @@ class CottonShirtPageContent extends StatelessWidget {
             ),
           ),
           Container(
-            padding: const EdgeInsets.all(12.0),
+            padding: const EdgeInsets.all(16.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -194,7 +194,7 @@ class CottonShirtPageContent extends StatelessWidget {
                         color: Theme.of(context).colorScheme.primary,
                         width: 2.0,
                       ),
-                      borderRadius: BorderRadius.circular(8.0),
+                      borderRadius: BorderRadius.circular(4.0),
                     ),
                     child: const Text(
                       'ADD TO CART',
@@ -202,7 +202,7 @@ class CottonShirtPageContent extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(width: 12.0),
+                const SizedBox(width: 16.0),
                 Expanded(
                   child: Container(
                     padding: const EdgeInsets.symmetric(
@@ -215,7 +215,7 @@ class CottonShirtPageContent extends StatelessWidget {
                         color: Theme.of(context).colorScheme.primary,
                         width: 2.0,
                       ),
-                      borderRadius: BorderRadius.circular(8.0),
+                      borderRadius: BorderRadius.circular(4.0),
                     ),
                     child: Text(
                       'BUY NOW',
