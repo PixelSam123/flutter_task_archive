@@ -1,4 +1,4 @@
-name: Build & store artifacts - wordgames_dc
+name: Build & store artifacts - flutter_task_archive
 
 on:
   push:
@@ -47,7 +47,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: macos_release
-          path: build/macos/Build/Products/Release/wordgames_dc.app
+          path: build/macos/Build/Products/Release/flutter_task_archive.app
 
   build-linux:
     runs-on: ubuntu-latest
