@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_task_archive/pages/product_list/cotton_shirt.dart';
-import 'package:material_symbols_icons/material_symbols_icons.dart';
+import 'package:flutter_task_archive/types.dart';
 
 class ProductListPage extends StatelessWidget {
   const ProductListPage({super.key});
@@ -14,6 +14,14 @@ class ProductListPage extends StatelessWidget {
           tertiary: const Color(0xFF999999),
           tertiaryContainer: const Color(0xFFF4F4F6),
           surface: const Color(0xFFFFFFFF),
+        ),
+        inputDecorationTheme: const InputDecorationTheme(
+          border: InputBorder.none,
+          hintStyle: TextStyle(color: Color(0xFF999999)),
+        ),
+        textSelectionTheme: const TextSelectionThemeData(
+          cursorColor: Color(0xFFF35770),
+          selectionColor: Color(0x7FF35770),
         ),
         textTheme: Theme.of(context).textTheme.apply(fontFamily: 'Poppins'),
       ),
@@ -58,106 +66,7 @@ class ProductListPageContent extends StatelessWidget {
       ),
       body: Column(
         children: [
-          Expanded(
-            child: ListView(
-              padding: const EdgeInsets.all(16.0),
-              children: [
-                /* searchbar */
-                Container(
-                  padding: const EdgeInsets.all(8.0),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.surface,
-                    boxShadow: pageBoxShadow,
-                    borderRadius: BorderRadius.circular(4.0),
-                  ),
-                  child: Row(
-                    children: [
-                      const Icon(Icons.search),
-                      const SizedBox(width: 8.0),
-                      Container(
-                        width: 1.0,
-                        height: 20.0,
-                        color: Theme.of(context).colorScheme.tertiary,
-                      ),
-                      const SizedBox(width: 8.0),
-                      Text(
-                        'Search Your Product',
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.tertiary,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 32.0),
-                /* category */
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Category',
-                      style: TextStyle(fontWeight: FontWeight.w600),
-                    ),
-                    Text('See All'),
-                  ],
-                ),
-                const SizedBox(height: 8.0),
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    _Category(
-                      icon: Symbols.apparel,
-                      text: 'Apparel',
-                      isActive: true,
-                    ),
-                    _Category(
-                      icon: Symbols.steps,
-                      text: 'Shoe',
-                      isActive: false,
-                    ),
-                    _Category(
-                      icon: Symbols.health_and_beauty,
-                      text: 'Beauty',
-                      isActive: false,
-                    ),
-                    _Category(
-                      icon: Icons.memory,
-                      text: 'Electric',
-                      isActive: false,
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 24.0),
-                /* the actual list */
-                const _Product(
-                  name: 'Cotton Shirt',
-                  description:
-                      'This is 100% cotton shirt which is made by Bangladesh',
-                  originalPrice: 150,
-                  discountPrice: 112,
-                  thumbnailPath: 'assets/cottonshirt.png',
-                ),
-                const SizedBox(height: 24.0),
-                const _Product(
-                  name: 'Ladies Watch',
-                  description:
-                      'This is 100% cotton shirt which is made by Bangladesh',
-                  originalPrice: 150,
-                  discountPrice: 112,
-                  thumbnailPath: 'assets/ladieswatch.png',
-                ),
-                const SizedBox(height: 24.0),
-                const _Product(
-                  name: 'Cotton Shirt',
-                  description:
-                      'This is 100% cotton shirt which is made by Bangladesh',
-                  originalPrice: 150,
-                  discountPrice: 112,
-                  thumbnailPath: 'assets/cottonshirt2.png',
-                ),
-              ],
-            ),
-          ),
+          const Expanded(child: _ProductsView()),
           Container(
             padding: const EdgeInsets.symmetric(
               horizontal: 16.0,
@@ -199,15 +108,183 @@ class ProductListPageContent extends StatelessWidget {
   }
 }
 
+class _ProductsView extends StatefulWidget {
+  const _ProductsView();
+
+  @override
+  State<_ProductsView> createState() => _ProductsViewState();
+}
+
+class _ProductsViewState extends State<_ProductsView> {
+  final List<Category> _categories = const [
+    Category(
+      imagePath: 'assets/apparel.png',
+      name: 'Apparel',
+    ),
+    Category(
+      imagePath: 'assets/shoe.png',
+      name: 'Shoe',
+    ),
+    Category(
+      imagePath: 'assets/beauty.png',
+      name: 'Beauty',
+    ),
+    Category(
+      imagePath: 'assets/electric.png',
+      name: 'Electric',
+    ),
+  ];
+  final List<Product> _products = const [
+    Product(
+      categoryName: 'Apparel',
+      name: 'Cotton Shirt',
+      description: 'This is 100% cotton shirt which is made by Bangladesh',
+      originalPrice: 150,
+      discountPrice: 112,
+      thumbnailPath: 'assets/cottonshirt.png',
+    ),
+    Product(
+      categoryName: 'Shoe',
+      name: 'Ladies Watch',
+      description: 'This is 100% cotton shirt which is made by Bangladesh',
+      originalPrice: 150,
+      discountPrice: 112,
+      thumbnailPath: 'assets/ladieswatch.png',
+    ),
+    Product(
+      categoryName: 'Beauty',
+      name: 'Cotton Shirt',
+      description: 'This is 100% cotton shirt which is made by Bangladesh',
+      originalPrice: 150,
+      discountPrice: 112,
+      thumbnailPath: 'assets/cottonshirt2.png',
+    ),
+  ];
+
+  String? _selectedCategoryName;
+  String _searchedProductText = '';
+
+  final pageBoxShadow = [
+    BoxShadow(
+      color: Colors.black.withAlpha(47),
+      blurRadius: 4.0,
+      offset: const Offset(0.0, 1.0),
+    ),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    final filteredProducts = _products.where((product) {
+      final isMatchCategory = _selectedCategoryName == null ||
+          product.categoryName == _selectedCategoryName;
+
+      final trimmedSearch = _searchedProductText.trim();
+      final isMatchSearch = trimmedSearch.isEmpty ||
+          product.name.toLowerCase().contains(trimmedSearch);
+
+      return isMatchCategory && isMatchSearch;
+    });
+
+    return ListView(
+      padding: const EdgeInsets.all(16.0),
+      children: [
+        /* searchbar */
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.surface,
+            boxShadow: pageBoxShadow,
+            borderRadius: BorderRadius.circular(4.0),
+          ),
+          child: Row(
+            children: [
+              const Icon(Icons.search),
+              const SizedBox(width: 8.0),
+              Container(
+                width: 1.0,
+                height: 20.0,
+                color: Theme.of(context).colorScheme.tertiary,
+              ),
+              const SizedBox(width: 8.0),
+              Expanded(
+                child: TextField(
+                  onChanged: (value) {
+                    setState(() {
+                      _searchedProductText = value;
+                    });
+                  },
+                  decoration: const InputDecoration(
+                    hintText: 'Search Your Product',
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 32.0),
+        /* category */
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text(
+              'Category',
+              style: TextStyle(fontWeight: FontWeight.w600),
+            ),
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  _selectedCategoryName = null;
+                });
+              },
+              child: const Text('See All'),
+            ),
+          ],
+        ),
+        const SizedBox(height: 8.0),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: _categories.map((category) {
+            return _Category(
+              category: category,
+              isActive: category.name == _selectedCategoryName,
+              onTap: () {
+                setState(() {
+                  _selectedCategoryName = category.name;
+                });
+              },
+            );
+          }).toList(),
+        ),
+        const SizedBox(height: 24.0),
+        /* the actual list */
+        filteredProducts.isEmpty
+            ? const Text(
+                'No products for current filter',
+                textAlign: TextAlign.center,
+              )
+            : const SizedBox(),
+        ...filteredProducts.map((product) {
+          return Column(
+            children: [
+              _Product(product: product),
+              const SizedBox(height: 24.0),
+            ],
+          );
+        }),
+      ],
+    );
+  }
+}
+
 class _Category extends StatelessWidget {
-  final IconData icon;
-  final String text;
+  final Category category;
   final bool isActive;
+  final void Function() onTap;
 
   const _Category({
-    required this.icon,
-    required this.text,
+    required this.category,
     required this.isActive,
+    required this.onTap,
   });
 
   @override
@@ -220,26 +297,31 @@ class _Category extends StatelessWidget {
       ),
     ];
 
-    return Column(
-      children: [
-        Container(
-          padding: const EdgeInsets.all(12.0),
-          decoration: BoxDecoration(
-            color: isActive
-                ? Theme.of(context).colorScheme.primary
-                : Theme.of(context).colorScheme.surface,
-            boxShadow: categoryBoxShadow,
-            borderRadius: BorderRadius.circular(4.0),
+    return GestureDetector(
+      onTap: onTap,
+      child: Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(16.0),
+            decoration: BoxDecoration(
+              color: isActive
+                  ? Theme.of(context).colorScheme.primary
+                  : Theme.of(context).colorScheme.surface,
+              boxShadow: categoryBoxShadow,
+              borderRadius: BorderRadius.circular(4.0),
+            ),
+            child: Image.asset(
+              category.imagePath,
+              width: 40.0,
+              height: 40.0,
+              color: isActive ? Colors.white : null,
+              filterQuality: FilterQuality.medium,
+            ),
           ),
-          child: Icon(
-            icon,
-            size: 48.0,
-            color: isActive ? Colors.white : null,
-          ),
-        ),
-        const SizedBox(height: 8.0),
-        Text(text, style: Theme.of(context).textTheme.bodySmall),
-      ],
+          const SizedBox(height: 8.0),
+          Text(category.name, style: Theme.of(context).textTheme.bodySmall),
+        ],
+      ),
     );
   }
 }
@@ -272,19 +354,9 @@ class _FooterItem extends StatelessWidget {
 }
 
 class _Product extends StatelessWidget {
-  final String name;
-  final String description;
-  final int originalPrice;
-  final int discountPrice;
-  final String thumbnailPath;
+  final Product product;
 
-  const _Product({
-    required this.name,
-    required this.description,
-    required this.originalPrice,
-    required this.discountPrice,
-    required this.thumbnailPath,
-  });
+  const _Product({required this.product});
 
   @override
   Widget build(BuildContext context) {
@@ -301,7 +373,7 @@ class _Product extends StatelessWidget {
             height: 128.0,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage(thumbnailPath),
+                image: AssetImage(product.thumbnailPath),
                 fit: BoxFit.cover,
               ),
               borderRadius: BorderRadius.circular(8.0),
@@ -313,13 +385,16 @@ class _Product extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  name,
+                  product.name,
                   style: Theme.of(context).textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.w600,
                       ),
                 ),
                 const SizedBox(height: 4.0),
-                Text(description, style: Theme.of(context).textTheme.bodySmall),
+                Text(
+                  product.description,
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
                 const SizedBox(height: 8.0),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -328,7 +403,7 @@ class _Product extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          '\$$originalPrice',
+                          '\$${product.originalPrice}',
                           style: TextStyle(
                             color: Theme.of(context).colorScheme.tertiary,
                             decoration: TextDecoration.lineThrough,
@@ -338,7 +413,7 @@ class _Product extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '\$$discountPrice',
+                          '\$${product.discountPrice}',
                           style: TextStyle(
                             fontSize: 18.0,
                             fontWeight: FontWeight.w700,
