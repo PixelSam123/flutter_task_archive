@@ -59,7 +59,7 @@ Future<double> linuxDevicePixelRatio() async {
   if (screenSize.width > 2560) {
     return 1.75;
   }
-  if (screenSize.width > 1080) {
+  if (screenSize.width > 1920) {
     return 1.25;
   }
 
