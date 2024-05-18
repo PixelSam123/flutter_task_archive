@@ -12,7 +12,7 @@ class ProductListPage extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.pink).copyWith(
           primary: const Color(0xFFF35770),
           tertiary: const Color(0xFF999999),
-          tertiaryContainer: const Color(0xFFF4F4F6),
+          tertiaryContainer: const Color(0xFFE0E0E0),
           surface: const Color(0xFFFFFFFF),
         ),
         inputDecorationTheme: const InputDecorationTheme(
@@ -163,6 +163,7 @@ class _ProductsViewState extends State<_ProductsView> {
 
   String? _selectedCategoryName;
   String _searchedProductText = '';
+  bool _isSeeAllHovered = false;
 
   final pageBoxShadow = [
     BoxShadow(
@@ -230,13 +231,37 @@ class _ProductsViewState extends State<_ProductsView> {
               'Category',
               style: TextStyle(fontWeight: FontWeight.w600),
             ),
-            GestureDetector(
-              onTap: () {
+            MouseRegion(
+              onEnter: (event) {
                 setState(() {
-                  _selectedCategoryName = null;
+                  _isSeeAllHovered = true;
                 });
               },
-              child: const Text('See All'),
+              onExit: (event) {
+                setState(() {
+                  _isSeeAllHovered = false;
+                });
+              },
+              child: GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _selectedCategoryName = null;
+                  });
+                },
+                child: Text(
+                  'See All',
+                  style: TextStyle(
+                    color: _selectedCategoryName == null
+                        ? Theme.of(context).colorScheme.primary
+                        : null,
+                    decoration:
+                        _isSeeAllHovered ? TextDecoration.underline : null,
+                    decorationColor: _selectedCategoryName == null
+                        ? Theme.of(context).colorScheme.primary
+                        : null,
+                  ),
+                ),
+              ),
             ),
           ],
         ),
@@ -276,7 +301,7 @@ class _ProductsViewState extends State<_ProductsView> {
   }
 }
 
-class _Category extends StatelessWidget {
+class _Category extends StatefulWidget {
   final Category category;
   final bool isActive;
   final void Function() onTap;
@@ -288,6 +313,13 @@ class _Category extends StatelessWidget {
   });
 
   @override
+  State<_Category> createState() => _CategoryState();
+}
+
+class _CategoryState extends State<_Category> {
+  bool _isHovered = false;
+
+  @override
   Widget build(BuildContext context) {
     final categoryBoxShadow = [
       BoxShadow(
@@ -297,30 +329,47 @@ class _Category extends StatelessWidget {
       ),
     ];
 
-    return GestureDetector(
-      onTap: onTap,
-      child: Column(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(16.0),
-            decoration: BoxDecoration(
-              color: isActive
-                  ? Theme.of(context).colorScheme.primary
-                  : Theme.of(context).colorScheme.surface,
-              boxShadow: categoryBoxShadow,
-              borderRadius: BorderRadius.circular(4.0),
+    return MouseRegion(
+      onEnter: (event) {
+        setState(() {
+          _isHovered = true;
+        });
+      },
+      onExit: (event) {
+        setState(() {
+          _isHovered = false;
+        });
+      },
+      child: GestureDetector(
+        onTap: widget.onTap,
+        child: Column(
+          children: [
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 150),
+              curve: Curves.decelerate,
+              padding: const EdgeInsets.all(16.0),
+              decoration: BoxDecoration(
+                color: widget.isActive
+                    ? Theme.of(context).colorScheme.primary
+                    : _isHovered
+                        ? Theme.of(context).colorScheme.tertiaryContainer
+                        : Theme.of(context).colorScheme.surface,
+                boxShadow: categoryBoxShadow,
+                borderRadius: BorderRadius.circular(4.0),
+              ),
+              child: Image.asset(
+                widget.category.imagePath,
+                width: 40.0,
+                height: 40.0,
+                color: widget.isActive ? Colors.white : null,
+                filterQuality: FilterQuality.medium,
+              ),
             ),
-            child: Image.asset(
-              category.imagePath,
-              width: 40.0,
-              height: 40.0,
-              color: isActive ? Colors.white : null,
-              filterQuality: FilterQuality.medium,
-            ),
-          ),
-          const SizedBox(height: 8.0),
-          Text(category.name, style: Theme.of(context).textTheme.bodySmall),
-        ],
+            const SizedBox(height: 8.0),
+            Text(widget.category.name,
+                style: Theme.of(context).textTheme.bodySmall),
+          ],
+        ),
       ),
     );
   }
