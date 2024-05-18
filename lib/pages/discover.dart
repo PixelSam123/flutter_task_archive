@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_task_archive/types.dart';
 
-final List<Continent> continents = [
+const List<Continent> continents = [
   Continent(
     name: 'Asia',
     locations: [
-      const Location(
+      Location(
         name: 'Tajmahal, India',
         startingPrice: 2000,
         picturePath: 'assets/tajmahal.png',
@@ -23,7 +23,7 @@ final List<Continent> continents = [
   Continent(
     name: 'Europe',
     locations: [
-      const Location(
+      Location(
         name: 'Paris, France',
         startingPrice: 1200,
         picturePath: 'assets/paris.png',
@@ -177,7 +177,7 @@ class _Body extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  _ContinentSelect(
+                  const _ContinentSelect(
                     continent: Continent(
                       name: 'All',
                       locations: [],
