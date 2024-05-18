@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class Continent {
   final String name;
   final List<Location> locations;
@@ -43,4 +45,11 @@ class Product {
     required this.discountPrice,
     required this.thumbnailPath,
   });
+}
+
+class ColorData {
+  final Color color;
+  final String name;
+
+  const ColorData({required this.color, required this.name});
 }

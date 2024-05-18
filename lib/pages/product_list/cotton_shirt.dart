@@ -1,4 +1,7 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_task_archive/types.dart';
 
 class CottonShirtPage extends StatelessWidget {
   const CottonShirtPage({super.key});
@@ -51,44 +54,11 @@ class CottonShirtPageContent extends StatelessWidget {
                 ),
                 const SizedBox(height: 4.0),
                 Text(
-                  'This is 100% cotton shirt',
+                  'This is 100% inclusive cotton shirt',
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
                 const SizedBox(height: 24.0),
-                /* picture */
-                Container(
-                  width: double.infinity,
-                  height: 240.0,
-                  padding: const EdgeInsets.all(12.0),
-                  clipBehavior: Clip.antiAlias,
-                  decoration: BoxDecoration(
-                    image: const DecorationImage(
-                      image: AssetImage('assets/productlist.jpg'),
-                      fit: BoxFit.cover,
-                    ),
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                  alignment: Alignment.topRight,
-                  child: Container(
-                    padding: const EdgeInsets.all(8.0),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.circle,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withAlpha(47),
-                          blurRadius: 4.0,
-                          offset: const Offset(0.0, 1.0),
-                        ),
-                      ],
-                    ),
-                    child: Icon(
-                      Icons.favorite,
-                      color: Theme.of(context).colorScheme.primary,
-                      size: 18.0,
-                    ),
-                  ),
-                ),
+                const _Pictures(),
                 const SizedBox(height: 24.0),
                 /* price */
                 Row(
@@ -133,48 +103,7 @@ class CottonShirtPageContent extends StatelessWidget {
                   textAlign: TextAlign.justify,
                 ),
                 const SizedBox(height: 24.0),
-                /* choose colors */
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Choose Colors',
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.tertiary,
-                          ),
-                        ),
-                        const SizedBox(height: 2.0),
-                        const Text('Light Sky'),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Colors.blue,
-                        Colors.red,
-                        Colors.yellow,
-                      ].map((color) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 3.0),
-                          child: Container(
-                            width: color == Colors.blue ? 24.0 : 20.0,
-                            height: color == Colors.blue ? 24.0 : 20.0,
-                            color: color,
-                            child: color == Colors.blue
-                                ? const Icon(
-                                    Icons.check,
-                                    color: Colors.white,
-                                    size: 12.0,
-                                  )
-                                : null,
-                          ),
-                        );
-                      }).toList(),
-                    ),
-                  ],
-                ),
+                const _ColorPicker(),
               ],
             ),
           ),
@@ -230,6 +159,201 @@ class CottonShirtPageContent extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _Pictures extends StatefulWidget {
+  const _Pictures();
+
+  @override
+  State<_Pictures> createState() => _PicturesState();
+}
+
+class _PicturesState extends State<_Pictures> {
+  final List<String> images = [
+    'assets/ladieswatch.png',
+    'assets/cottonshirt.png',
+    'assets/cottonshirt2.png',
+  ];
+  final _picturesController = PageController(
+    viewportFraction: 0.8,
+    initialPage: 1,
+  );
+
+  int _currentPage = 1;
+
+  @override
+  void dispose() {
+    _picturesController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 240.0,
+      child: PageView(
+        scrollBehavior: const _PicturesScrollBehavior(),
+        controller: _picturesController,
+        onPageChanged: (int page) {
+          setState(() {
+            _currentPage = page;
+          });
+        },
+        children: images
+            .map((image) => _Picture(
+                  imagePath: image,
+                  isActive: images.indexOf(image) == _currentPage,
+                ))
+            .toList(),
+      ),
+    );
+  }
+}
+
+class _PicturesScrollBehavior extends MaterialScrollBehavior {
+  const _PicturesScrollBehavior();
+
+  @override
+  Set<PointerDeviceKind> get dragDevices =>
+      super.dragDevices.union({PointerDeviceKind.mouse});
+}
+
+class _Picture extends StatelessWidget {
+  final String imagePath;
+  final bool isActive;
+
+  const _Picture({required this.imagePath, required this.isActive});
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedPadding(
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.decelerate,
+      padding: EdgeInsets.symmetric(
+        horizontal: isActive ? 0.0 : 16.0,
+        vertical: isActive ? 0.0 : 16.0,
+      ),
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(12.0),
+        clipBehavior: Clip.antiAlias,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(imagePath),
+            fit: BoxFit.cover,
+          ),
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        alignment: Alignment.topRight,
+        child: Container(
+          padding: const EdgeInsets.all(8.0),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            shape: BoxShape.circle,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withAlpha(47),
+                blurRadius: 4.0,
+                offset: const Offset(0.0, 1.0),
+              ),
+            ],
+          ),
+          child: Icon(
+            Icons.favorite,
+            color: Theme.of(context).colorScheme.primary,
+            size: 18.0,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _ColorPicker extends StatefulWidget {
+  const _ColorPicker();
+
+  @override
+  State<_ColorPicker> createState() => _ColorPickerState();
+}
+
+class _ColorPickerState extends State<_ColorPicker> {
+  final List<ColorData> colors = const [
+    ColorData(name: 'Red', color: Colors.red),
+    ColorData(name: 'Orange', color: Colors.orange),
+    ColorData(name: 'Yellow', color: Colors.yellow),
+    ColorData(name: 'Green', color: Colors.green),
+    ColorData(name: 'Blue', color: Colors.blue),
+    ColorData(name: 'Indigo', color: Colors.indigo),
+    ColorData(name: 'Violet', color: Colors.purple),
+  ];
+
+  String chosenColor = 'Red';
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Choose Colors',
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.tertiary,
+              ),
+            ),
+            const SizedBox(height: 2.0),
+            Text(chosenColor),
+          ],
+        ),
+        Row(
+          children: colors.map((color) {
+            return _Color(
+                colorData: color,
+                isActive: color.name == chosenColor,
+                onTap: () {
+                  setState(() {
+                    chosenColor = color.name;
+                  });
+                });
+          }).toList(),
+        ),
+      ],
+    );
+  }
+}
+
+class _Color extends StatelessWidget {
+  final ColorData colorData;
+  final bool isActive;
+  final void Function() onTap;
+
+  const _Color({
+    required this.colorData,
+    required this.isActive,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 3.0),
+      child: GestureDetector(
+        onTap: onTap,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 150),
+          curve: Curves.decelerate,
+          width: isActive ? 24.0 : 18.0,
+          height: isActive ? 24.0 : 18.0,
+          color: colorData.color,
+          child: isActive
+              ? const Icon(Icons.check, color: Colors.white, size: 16.0)
+              : null,
+        ),
       ),
     );
   }
