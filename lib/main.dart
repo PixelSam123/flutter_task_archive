@@ -34,7 +34,7 @@ Future<void> setupDesktopWindow() async {
 
       setWindowMinSize(const Size(w, h));
       setWindowFrame(Rect.fromLTWH(windowFrame.left, windowFrame.top, w, h));
-    } else if (screenSize.width > 1080) {
+    } else if (screenSize.width > 1920) {
       const w = 504.0;
       const h = 896.0;
 
