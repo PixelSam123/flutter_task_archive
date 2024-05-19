@@ -28,25 +28,14 @@ Future<void> setupDesktopWindow() async {
   setWindowTitle(_title);
 
   if (screenSize != null) {
-    if (screenSize.width > 2560) {
-      const w = 648.0;
-      const h = 1152.0;
+    final (w, h) = screenSize.width > 2560
+        ? (648.0, 1152.0)
+        : screenSize.width > 1920
+            ? (504.0, 896.0)
+            : (396.0, 704.0);
 
-      setWindowMinSize(const Size(w, h));
-      setWindowFrame(Rect.fromLTWH(windowFrame.left, windowFrame.top, w, h));
-    } else if (screenSize.width > 1920) {
-      const w = 504.0;
-      const h = 896.0;
-
-      setWindowMinSize(const Size(w, h));
-      setWindowFrame(Rect.fromLTWH(windowFrame.left, windowFrame.top, w, h));
-    } else {
-      const w = 396.0;
-      const h = 704.0;
-
-      setWindowMinSize(const Size(w, h));
-      setWindowFrame(Rect.fromLTWH(windowFrame.left, windowFrame.top, w, h));
-    }
+    setWindowMinSize(Size(w, h));
+    setWindowFrame(Rect.fromLTWH(windowFrame.left, windowFrame.top, w, h));
   }
 }
 
