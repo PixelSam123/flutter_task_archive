@@ -44,66 +44,82 @@ class CottonShirtPageContent extends StatelessWidget {
         children: [
           Expanded(
             child: ListView(
-              padding: const EdgeInsets.all(16.0),
               children: [
-                Text(
-                  'Cotton Shirt',
-                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        fontWeight: FontWeight.w700,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Cotton Shirt',
+                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                              fontWeight: FontWeight.w700,
+                            ),
                       ),
-                ),
-                const SizedBox(height: 4.0),
-                Text(
-                  'This is 100% inclusive cotton shirt',
-                  style: Theme.of(context).textTheme.bodySmall,
-                ),
-                const SizedBox(height: 24.0),
-                const _Pictures(),
-                const SizedBox(height: 24.0),
-                /* price */
-                Row(
-                  children: [
-                    Text(
-                      '\$112',
-                      style: TextStyle(
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.w700,
-                        color: Theme.of(context).colorScheme.primary,
-                        height: 1.25,
+                      const SizedBox(height: 4.0),
+                      Text(
+                        'This is 100% inclusive cotton shirt',
+                        style: Theme.of(context).textTheme.bodySmall,
                       ),
-                    ),
-                    const SizedBox(width: 8.0),
-                    Text(
-                      '\$150',
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.tertiary,
-                        decoration: TextDecoration.lineThrough,
-                        decorationColor: Theme.of(context).colorScheme.tertiary,
-                        height: 1.25,
-                      ),
-                    ),
-                    const Spacer(),
-                    const Text('5 in stock'),
-                  ],
-                ),
-                const SizedBox(height: 24.0),
-                /* description */
-                Text(
-                  'Description',
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.tertiary,
+                    ],
                   ),
                 ),
-                const SizedBox(height: 4.0),
-                Text(
-                  'This is 100% cotton shirt which This is 100% cotton wear '
-                  'shirt which is made by Bangladesh is made by this by '
-                  'Bangladesh dummy text',
-                  style: Theme.of(context).textTheme.bodySmall,
-                  textAlign: TextAlign.justify,
+                const SizedBox(height: 16.0),
+                const _Pictures(),
+                const SizedBox(height: 16.0),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      /* price */
+                      Row(
+                        children: [
+                          Text(
+                            '\$112',
+                            style: TextStyle(
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.w700,
+                              color: Theme.of(context).colorScheme.primary,
+                              height: 1.25,
+                            ),
+                          ),
+                          const SizedBox(width: 8.0),
+                          Text(
+                            '\$150',
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.tertiary,
+                              decoration: TextDecoration.lineThrough,
+                              decorationColor:
+                                  Theme.of(context).colorScheme.tertiary,
+                              height: 1.25,
+                            ),
+                          ),
+                          const Spacer(),
+                          const Text('5 in stock'),
+                        ],
+                      ),
+                      const SizedBox(height: 24.0),
+                      /* description */
+                      Text(
+                        'Description',
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.tertiary,
+                        ),
+                      ),
+                      const SizedBox(height: 4.0),
+                      Text(
+                        'This is 100% cotton shirt which This is 100% cotton '
+                        'wear shirt which is made by Bangladesh is made by '
+                        'this by Bangladesh dummy text',
+                        style: Theme.of(context).textTheme.bodySmall,
+                        textAlign: TextAlign.justify,
+                      ),
+                      const SizedBox(height: 24.0),
+                      const _ColorPicker(),
+                    ],
+                  ),
                 ),
-                const SizedBox(height: 24.0),
-                const _ColorPicker(),
               ],
             ),
           ),
@@ -192,22 +208,28 @@ class _PicturesState extends State<_Pictures> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 240.0,
-      child: PageView(
-        scrollBehavior: const _PicturesScrollBehavior(),
-        controller: _picturesController,
-        onPageChanged: (int page) {
-          setState(() {
-            _currentPage = page;
-          });
-        },
-        children: images
-            .map((image) => _Picture(
-                  imagePath: image,
-                  isActive: images.indexOf(image) == _currentPage,
-                ))
-            .toList(),
+    return Scrollbar(
+      controller: _picturesController,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 12.0),
+        child: SizedBox(
+          height: 240.0,
+          child: PageView(
+            scrollBehavior: const _PicturesScrollBehavior(),
+            controller: _picturesController,
+            onPageChanged: (int page) {
+              setState(() {
+                _currentPage = page;
+              });
+            },
+            children: images
+                .map((image) => _Picture(
+                      imagePath: image,
+                      isActive: images.indexOf(image) == _currentPage,
+                    ))
+                .toList(),
+          ),
+        ),
       ),
     );
   }
@@ -248,25 +270,27 @@ class _Picture extends StatelessWidget {
           borderRadius: BorderRadius.circular(8.0),
         ),
         alignment: Alignment.topRight,
-        child: Container(
-          padding: const EdgeInsets.all(8.0),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            shape: BoxShape.circle,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withAlpha(47),
-                blurRadius: 4.0,
-                offset: const Offset(0.0, 1.0),
-              ),
-            ],
-          ),
-          child: Icon(
-            Icons.favorite,
-            color: Theme.of(context).colorScheme.primary,
-            size: 18.0,
-          ),
-        ),
+        child: isActive
+            ? Container(
+                padding: const EdgeInsets.all(8.0),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withAlpha(47),
+                      blurRadius: 4.0,
+                      offset: const Offset(0.0, 1.0),
+                    ),
+                  ],
+                ),
+                child: Icon(
+                  Icons.favorite,
+                  color: Theme.of(context).colorScheme.primary,
+                  size: 18.0,
+                ),
+              )
+            : null,
       ),
     );
   }
