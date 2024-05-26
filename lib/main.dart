@@ -15,8 +15,11 @@ void main() async {
   }
 
   runApp(FakeDevicePixelRatio(
-    fakeDevicePixelRatio:
-        Platform.isLinux ? await linuxDevicePixelRatio() : null,
+    fakeDevicePixelRatio: Platform.isMacOS
+        ? 2.25
+        : Platform.isLinux
+            ? await linuxDevicePixelRatio()
+            : null,
     child: const MyApp(),
   ));
 }
