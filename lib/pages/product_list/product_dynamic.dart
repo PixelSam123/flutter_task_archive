@@ -3,8 +3,17 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_task_archive/types.dart';
 
-class CottonShirtPage extends StatelessWidget {
-  const CottonShirtPage({super.key});
+class ProductPage extends StatelessWidget {
+  final Product product;
+  final void Function(Product)? onAddProduct;
+  final Box<int> cartCount;
+
+  const ProductPage(
+    this.product, {
+    super.key,
+    this.onAddProduct,
+    required this.cartCount,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -18,13 +27,42 @@ class CottonShirtPage extends StatelessWidget {
         ),
         textTheme: Theme.of(context).textTheme.apply(fontFamily: 'Poppins'),
       ),
-      child: const CottonShirtPageContent(),
+      child: ProductPageContent(
+        key: Key(cartCount.toString()),
+        product,
+        onAddProduct: onAddProduct,
+        cartCount: cartCount,
+      ),
     );
   }
 }
 
-class CottonShirtPageContent extends StatelessWidget {
-  const CottonShirtPageContent({super.key});
+class ProductPageContent extends StatefulWidget {
+  final Product product;
+  final void Function(Product)? onAddProduct;
+  final Box<int> cartCount;
+
+  const ProductPageContent(
+    this.product, {
+    super.key,
+    this.onAddProduct,
+    required this.cartCount,
+  });
+
+  @override
+  State<ProductPageContent> createState() => _ProductPageContentState();
+}
+
+class _ProductPageContentState extends State<ProductPageContent> {
+  void addProductToCart(Product product) {
+    if (widget.onAddProduct != null) {
+      widget.onAddProduct!(product);
+    }
+
+    setState(() {
+      widget.cartCount.value++;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +77,31 @@ class CottonShirtPageContent extends StatelessWidget {
               fontSize: 18.0,
               fontWeight: FontWeight.w600,
             ),
+        actions: [
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 6.0),
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.primary,
+              borderRadius: BorderRadius.circular(4.0),
+            ),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.shopping_cart_rounded,
+                  size: 20,
+                  color: Theme.of(context).colorScheme.onPrimary,
+                ),
+                Text(
+                  '${widget.cartCount.value}',
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onPrimary,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 16.0),
+        ],
       ),
       body: Column(
         children: [
@@ -51,14 +114,14 @@ class CottonShirtPageContent extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Cotton Shirt',
+                        widget.product.name,
                         style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                               fontWeight: FontWeight.w700,
                             ),
                       ),
                       const SizedBox(height: 4.0),
                       Text(
-                        'This is 100% inclusive cotton shirt',
+                        'This is 100% ${widget.product.name}',
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
                     ],
@@ -76,7 +139,7 @@ class CottonShirtPageContent extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            '\$112',
+                            '\$${widget.product.discountPrice}',
                             style: TextStyle(
                               fontSize: 18.0,
                               fontWeight: FontWeight.w700,
@@ -86,7 +149,7 @@ class CottonShirtPageContent extends StatelessWidget {
                           ),
                           const SizedBox(width: 8.0),
                           Text(
-                            '\$150',
+                            '\$${widget.product.originalPrice}',
                             style: TextStyle(
                               color: Theme.of(context).colorScheme.tertiary,
                               decoration: TextDecoration.lineThrough,
@@ -109,9 +172,7 @@ class CottonShirtPageContent extends StatelessWidget {
                       ),
                       const SizedBox(height: 4.0),
                       Text(
-                        'This is 100% cotton shirt which This is 100% cotton '
-                        'wear shirt which is made by Bangladesh is made by '
-                        'this by Bangladesh dummy text',
+                        widget.product.description,
                         style: Theme.of(context).textTheme.bodySmall,
                         textAlign: TextAlign.justify,
                       ),
@@ -129,21 +190,24 @@ class CottonShirtPageContent extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16.0,
-                      vertical: 8.0,
-                    ),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Theme.of(context).colorScheme.primary,
-                        width: 2.0,
+                  child: GestureDetector(
+                    onTap: () => addProductToCart(widget.product),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16.0,
+                        vertical: 8.0,
                       ),
-                      borderRadius: BorderRadius.circular(4.0),
-                    ),
-                    child: const Text(
-                      'ADD TO CART',
-                      textAlign: TextAlign.center,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Theme.of(context).colorScheme.primary,
+                          width: 2.0,
+                        ),
+                        borderRadius: BorderRadius.circular(4.0),
+                      ),
+                      child: const Text(
+                        'ADD TO CART',
+                        textAlign: TextAlign.center,
+                      ),
                     ),
                   ),
                 ),

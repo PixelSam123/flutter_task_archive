@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_task_archive/pages/discover.dart';
-import 'package:flutter_task_archive/pages/product_list.dart';
+import 'package:flutter_task_archive/pages/product_list/index.dart';
 import 'package:flutter_task_archive/pages/watch.dart';
 import 'package:flutter_task_archive/pages/x_beauty.dart';
 

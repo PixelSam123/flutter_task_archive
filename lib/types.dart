@@ -53,3 +53,9 @@ class ColorData {
 
   const ColorData({required this.color, required this.name});
 }
+
+class Box<T> {
+  T value;
+
+  Box(this.value);
+}
