@@ -39,19 +39,17 @@ class ProductListPageContent extends StatefulWidget {
 }
 
 class _ProductListPageContentState extends State<ProductListPageContent> {
-  List<Product> cart = [];
+  List<CartItem> cart = [];
 
-  void onAddProduct(Product product) {
+  void onAddProduct(CartItem cartItem) {
     setState(() {
-      cart.add(product);
+      cart.add(cartItem);
     });
   }
 
   void onRemoveProduct(int idx) {
-    cart.removeAt(idx);
-
     setState(() {
-      cart = cart;
+      cart.removeAt(idx);
     });
   }
 
@@ -144,7 +142,7 @@ class _ProductListPageContentState extends State<ProductListPageContent> {
 }
 
 class _ProductsView extends StatefulWidget {
-  final void Function(Product)? onAddProduct;
+  final void Function(CartItem)? onAddProduct;
   final Box<int> cartCount;
 
   const _ProductsView({this.onAddProduct, required this.cartCount});
@@ -451,7 +449,7 @@ class _FooterItem extends StatelessWidget {
 
 class _Product extends StatelessWidget {
   final Product product;
-  final void Function(Product)? onAddProduct;
+  final void Function(CartItem)? onAddProduct;
   final Box<int> cartCount;
 
   const _Product({

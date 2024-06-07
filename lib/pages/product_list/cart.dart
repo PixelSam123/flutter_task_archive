@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_task_archive/types.dart';
 
 class CartPage extends StatelessWidget {
-  final List<Product> cart;
+  final List<CartItem> cart;
   final void Function(int) onRemoveProduct;
 
   const CartPage(this.cart, {super.key, required this.onRemoveProduct});
@@ -33,7 +33,7 @@ class CartPage extends StatelessWidget {
 }
 
 class CartPageContent extends StatefulWidget {
-  final List<Product> cart;
+  final List<CartItem> cart;
   final void Function(int) onRemoveProduct;
 
   const CartPageContent(this.cart, {super.key, required this.onRemoveProduct});
@@ -89,15 +89,25 @@ class _CartPageContentState extends State<CartPageContent> {
               children: [
                 Text('Your cart contains (${widget.cart.length} items):'),
                 ...widget.cart.asMap().entries.map((entry) {
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(entry.value.name),
-                      TextButton(
-                        onPressed: () => removeProductFromCart(entry.key),
-                        child: const Text('Remove'),
-                      ),
-                    ],
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Name: ${entry.value.product.name}'),
+                            Text('Qty: ${entry.value.qty}'),
+                            Text('Color: ${entry.value.color}'),
+                          ],
+                        ),
+                        TextButton(
+                          onPressed: () => removeProductFromCart(entry.key),
+                          child: const Text('Remove'),
+                        ),
+                      ],
+                    ),
                   );
                 }),
               ],

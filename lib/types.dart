@@ -59,3 +59,15 @@ class Box<T> {
 
   Box(this.value);
 }
+
+class CartItem {
+  final Product product;
+  final int qty;
+  final String color;
+
+  CartItem({
+    required this.product,
+    required this.qty,
+    required this.color,
+  });
+}

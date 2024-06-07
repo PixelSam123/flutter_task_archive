@@ -5,7 +5,7 @@ import 'package:flutter_task_archive/types.dart';
 
 class ProductPage extends StatelessWidget {
   final Product product;
-  final void Function(Product)? onAddProduct;
+  final void Function(CartItem)? onAddProduct;
   final Box<int> cartCount;
 
   const ProductPage(
@@ -39,7 +39,7 @@ class ProductPage extends StatelessWidget {
 
 class ProductPageContent extends StatefulWidget {
   final Product product;
-  final void Function(Product)? onAddProduct;
+  final void Function(CartItem)? onAddProduct;
   final Box<int> cartCount;
 
   const ProductPageContent(
@@ -56,7 +56,13 @@ class ProductPageContent extends StatefulWidget {
 class _ProductPageContentState extends State<ProductPageContent> {
   void addProductToCart(Product product) {
     if (widget.onAddProduct != null) {
-      widget.onAddProduct!(product);
+      widget.onAddProduct!(
+        CartItem(
+          product: product,
+          qty: 1,
+          color: 'green',
+        ),
+      );
     }
 
     setState(() {
