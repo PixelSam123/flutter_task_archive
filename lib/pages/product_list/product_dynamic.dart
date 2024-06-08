@@ -84,26 +84,32 @@ class _ProductPageContentState extends State<ProductPageContent> {
               fontWeight: FontWeight.w600,
             ),
         actions: [
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 6.0),
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primary,
-              borderRadius: BorderRadius.circular(4.0),
-            ),
-            child: Row(
-              children: [
-                Icon(
-                  Icons.shopping_cart_rounded,
-                  size: 20,
-                  color: Theme.of(context).colorScheme.onPrimary,
-                ),
-                Text(
-                  '${widget.cartCount.value}',
-                  style: TextStyle(
+          GestureDetector(
+            onTap: () => Navigator.of(context).pop(),
+            child: Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 8.0,
+                vertical: 6.0,
+              ),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.primary,
+                borderRadius: BorderRadius.circular(4.0),
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.shopping_cart_rounded,
+                    size: 20,
                     color: Theme.of(context).colorScheme.onPrimary,
                   ),
-                ),
-              ],
+                  Text(
+                    '${widget.cartCount.value}',
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onPrimary,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
           const SizedBox(width: 16.0),
