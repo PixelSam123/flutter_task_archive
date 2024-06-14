@@ -453,7 +453,6 @@ class _Product extends StatelessWidget {
   final Box<int> cartCount;
 
   const _Product({
-    super.key,
     required this.product,
     this.onAddProduct,
     required this.cartCount,

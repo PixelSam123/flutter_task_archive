@@ -54,13 +54,46 @@ class ProductPageContent extends StatefulWidget {
 }
 
 class _ProductPageContentState extends State<ProductPageContent> {
+  final List<ColorData> colors = const [
+    ColorData(name: 'Red', color: Colors.red),
+    ColorData(name: 'Orange', color: Colors.orange),
+    ColorData(name: 'Yellow', color: Colors.yellow),
+    ColorData(name: 'Green', color: Colors.green),
+    ColorData(name: 'Blue', color: Colors.blue),
+    ColorData(name: 'Indigo', color: Colors.indigo),
+    ColorData(name: 'Violet', color: Colors.purple),
+  ];
+
+  String chosenColor = 'Red';
+  int chosenQuantity = 1;
+
+  void changeColor(String colorName) {
+    setState(() {
+      chosenColor = colorName;
+    });
+  }
+
+  void incrementQuantity() {
+    setState(() {
+      chosenQuantity++;
+    });
+  }
+
+  void decrementQuantity() {
+    if (chosenQuantity == 1) return;
+
+    setState(() {
+      chosenQuantity--;
+    });
+  }
+
   void addProductToCart(Product product) {
     if (widget.onAddProduct != null) {
       widget.onAddProduct!(
         CartItem(
           product: product,
-          qty: 1,
-          color: 'green',
+          qty: chosenQuantity,
+          color: chosenColor,
         ),
       );
     }
@@ -189,7 +222,34 @@ class _ProductPageContentState extends State<ProductPageContent> {
                         textAlign: TextAlign.justify,
                       ),
                       const SizedBox(height: 24.0),
-                      const _ColorPicker(),
+                      /* color picker */
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Choose Colors',
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.tertiary,
+                                ),
+                              ),
+                              const SizedBox(height: 2.0),
+                              Text(chosenColor),
+                            ],
+                          ),
+                          Row(
+                            children: colors.map((color) {
+                              return _Color(
+                                colorData: color,
+                                isActive: color.name == chosenColor,
+                                onTap: () => changeColor(color.name),
+                              );
+                            }).toList(),
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 ),
@@ -198,54 +258,89 @@ class _ProductPageContentState extends State<ProductPageContent> {
           ),
           Container(
             padding: const EdgeInsets.all(16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: Column(
               children: [
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () => addProductToCart(widget.product),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16.0,
-                        vertical: 8.0,
-                      ),
+                /* quantity picker */
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text('Quantity'),
+                    Container(
                       decoration: BoxDecoration(
                         border: Border.all(
-                          color: Theme.of(context).colorScheme.primary,
-                          width: 2.0,
+                          color: Theme.of(context).colorScheme.tertiary,
+                          width: 1.0,
                         ),
                         borderRadius: BorderRadius.circular(4.0),
                       ),
-                      child: const Text(
-                        'ADD TO CART',
-                        textAlign: TextAlign.center,
+                      child: Row(
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.remove),
+                            onPressed: decrementQuantity,
+                          ),
+                          Text('$chosenQuantity'),
+                          IconButton(
+                            icon: const Icon(Icons.add),
+                            onPressed: incrementQuantity,
+                          ),
+                        ],
                       ),
                     ),
-                  ),
+                  ],
                 ),
-                const SizedBox(width: 16.0),
-                Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16.0,
-                      vertical: 8.0,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.primary,
-                      border: Border.all(
-                        color: Theme.of(context).colorScheme.primary,
-                        width: 2.0,
+                const SizedBox(height: 16.0),
+                /* action buttons */
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () => addProductToCart(widget.product),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16.0,
+                            vertical: 8.0,
+                          ),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Theme.of(context).colorScheme.primary,
+                              width: 2.0,
+                            ),
+                            borderRadius: BorderRadius.circular(4.0),
+                          ),
+                          child: const Text(
+                            'ADD TO CART',
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
                       ),
-                      borderRadius: BorderRadius.circular(4.0),
                     ),
-                    child: Text(
-                      'BUY NOW',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.surface,
+                    const SizedBox(width: 16.0),
+                    Expanded(
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16.0,
+                          vertical: 8.0,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.primary,
+                          border: Border.all(
+                            color: Theme.of(context).colorScheme.primary,
+                            width: 2.0,
+                          ),
+                          borderRadius: BorderRadius.circular(4.0),
+                        ),
+                        child: Text(
+                          'BUY NOW',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.surface,
+                          ),
+                        ),
                       ),
                     ),
-                  ),
+                  ],
                 ),
               ],
             ),
@@ -368,61 +463,6 @@ class _Picture extends StatelessWidget {
               )
             : null,
       ),
-    );
-  }
-}
-
-class _ColorPicker extends StatefulWidget {
-  const _ColorPicker();
-
-  @override
-  State<_ColorPicker> createState() => _ColorPickerState();
-}
-
-class _ColorPickerState extends State<_ColorPicker> {
-  final List<ColorData> colors = const [
-    ColorData(name: 'Red', color: Colors.red),
-    ColorData(name: 'Orange', color: Colors.orange),
-    ColorData(name: 'Yellow', color: Colors.yellow),
-    ColorData(name: 'Green', color: Colors.green),
-    ColorData(name: 'Blue', color: Colors.blue),
-    ColorData(name: 'Indigo', color: Colors.indigo),
-    ColorData(name: 'Violet', color: Colors.purple),
-  ];
-
-  String chosenColor = 'Red';
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Choose Colors',
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.tertiary,
-              ),
-            ),
-            const SizedBox(height: 2.0),
-            Text(chosenColor),
-          ],
-        ),
-        Row(
-          children: colors.map((color) {
-            return _Color(
-                colorData: color,
-                isActive: color.name == chosenColor,
-                onTap: () {
-                  setState(() {
-                    chosenColor = color.name;
-                  });
-                });
-          }).toList(),
-        ),
-      ],
     );
   }
 }
